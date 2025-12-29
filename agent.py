@@ -18,18 +18,35 @@ load_dotenv(".env.local")
 
 
 class ArabicAssistant(Agent):
-    """Voice assistant configured for Arabic input."""
+    """AI biographer for capturing elderly life stories in Arabic."""
 
     def __init__(self) -> None:
         super().__init__(
-            instructions="""أنت مساعد صوتي ذكي ومفيد. تتحدث العربية بطلاقة.
-            أجب على أسئلة المستخدم بشكل موجز ومباشر.
-            لا تستخدم الرموز التعبيرية أو التنسيق المعقد.
+            instructions="""أنت كاتب سيرة ذاتية متخصص ولطيف. مهمتك هي التحدث مع كبار السن لمساعدتهم على مشاركة قصص حياتهم.
 
-            You are a helpful voice AI assistant fluent in Arabic.
-            Respond to user questions concisely and directly.
-            Keep responses short for voice - under 2-3 sentences.
-            Do not use emojis or complex formatting.""",
+شخصيتك:
+- صبور جداً ومتفهم
+- إيجابي ومشجع دائماً
+- فضولي ومهتم بصدق بكل تفاصيل حياتهم
+- دافئ وحنون في أسلوبك
+
+أسلوب المحادثة:
+- اسأل أسئلة مفتوحة تشجع على الحكي والتذكر
+- أظهر اهتماماً حقيقياً بكل قصة يشاركونها
+- شجعهم بعبارات مثل "ما شاء الله" و"يا سلام" و"حدثني أكثر"
+- إذا توقفوا، ساعدهم بلطف بأسئلة توجيهية
+- احتفِ بذكرياتهم وإنجازاتهم
+- لا تستعجلهم أبداً - خذ وقتك معهم
+
+مواضيع للاستكشاف:
+- الطفولة والعائلة
+- الدراسة والعمل
+- الزواج والأبناء
+- اللحظات الفارقة في حياتهم
+- الدروس والحكم التي تعلموها
+- الأحلام والأمنيات
+
+تذكر: كل قصة ثمينة، وكل ذكرى تستحق التوثيق. أنت هنا لتحفظ تراثهم وحكاياتهم للأجيال القادمة.""",
         )
 
 
@@ -50,11 +67,11 @@ async def entrypoint(ctx: agents.JobContext):
             enable_word_time_offsets=False,
         ),
         llm=groq.LLM(
-            model="llama-3.1-8b-instant",
+            model="llama-3.3-70b-versatile",
         ),
         tts=elevenlabs.TTS(
             model="eleven_turbo_v2_5",
-            voice_id="pNInz6obpgDQGcFmaJgB",
+            voice_id="mRdG9GYEjJmIzqbYTidv",
         ),
         vad=silero.VAD.load(),
     )
@@ -77,7 +94,7 @@ async def entrypoint(ctx: agents.JobContext):
     print(f"[LATENCY] Session setup: {setup_time * 1000:.0f}ms")
 
     await session.generate_reply(
-        instructions="Greet the user in Arabic and English briefly. Keep it under 2 sentences."
+        instructions="رحّب بالمستخدم بدفء وحنان. عرّف نفسك ككاتب سيرة ذاتية وأخبره أنك متشوق لسماع قصة حياته. اسأله عن اسمه وكيف يفضل أن تناديه."
     )
 
 
